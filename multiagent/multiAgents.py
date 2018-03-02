@@ -230,8 +230,9 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
 
     
     def min_value(self, agentIndex, depth, gameState, alpha, beta):
-      if gameState.isWin() or gameState.isLose():
+      if gameState.isWin() or gameState.isLose(): # or (depth == 1 and agentIndex + 1 == gameState.getNumAgents()):
         return self.evaluationFunction(gameState)
+
       legalActions = gameState.getLegalActions(agentIndex)
       bestScore = float('inf')
       nextAgent = (agentIndex + 1) % gameState.getNumAgents()
@@ -244,9 +245,8 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         bestScore = min(score, bestScore)
         if bestScore < alpha:
           return bestScore
-        beta = min(beta, bestScore)
+        beta = min(alpha, bestScore)
       return bestScore
-
 
     def getAction(self, gameState):
       agentIndex = 0
